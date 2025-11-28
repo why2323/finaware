@@ -1,3 +1,4 @@
+```tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -54,7 +55,7 @@ const Quiz = () => {
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-2xl w-full"
         >
-          <div className="bg-card border border-border rounded-3xl p-8 md:p-12 text-center">
+          <div className="glass-panel rounded-3xl p-8 md:p-12 text-center bg-white/95">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -67,7 +68,7 @@ const Quiz = () => {
             <div className="inline-block px-6 py-3 bg-primary/10 border border-primary/20 rounded-full mb-6">
               <p className="text-2xl font-semibold text-primary">{result}</p>
             </div>
-            <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto">
+            <p className="text-lg text-slate-600 mb-8 max-w-lg mx-auto">
               Great! We'll personalize your experience based on your investment style. You'll receive weekly updates tailored to your profile.
             </p>
             <Button
@@ -85,18 +86,17 @@ const Quiz = () => {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">
-      <div className="max-w-3xl w-full">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-muted-foreground">
+      <div className="max-w-4xl w-full space-y-8">
+        <div className="glass-panel px-6 py-5 flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold tracking-[0.35em] text-slate-400 uppercase">
               Question {currentQuestion + 1} of {quizQuestions.length}
             </span>
-            <span className="text-sm text-muted-foreground">{Math.round(progress)}%</span>
+            <span className="text-sm font-semibold text-slate-600">{Math.round(progress)}%</span>
           </div>
-          <div className="h-2 bg-secondary rounded-full overflow-hidden">
+          <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-primary"
+              className="h-full bg-gradient-to-r from-primary via-sky-400 to-cyan-300"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}
@@ -104,7 +104,6 @@ const Quiz = () => {
           </div>
         </div>
 
-        {/* Question Card */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestion}
@@ -112,7 +111,7 @@ const Quiz = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
-            className="bg-card border border-border rounded-3xl p-8 md:p-12"
+            className="quiz-shell p-8 md:p-12 text-white"
           >
             <h2 className="text-2xl md:text-3xl font-bold mb-8">{currentQ.question}</h2>
             <div className="space-y-4">
@@ -120,27 +119,23 @@ const Quiz = () => {
                 <motion.button
                   key={index}
                   onClick={() => handleAnswer(option.value)}
-                  className={`w-full text-left p-6 rounded-2xl border-2 transition-all ${
-                    answers[currentQuestion] === option.value
-                      ? 'border-primary bg-primary/10'
-                      : 'border-border hover:border-primary/50 hover:bg-secondary/50'
+                  className={`w-full text-left p-5 sm:p-6 quiz-option min-h-[64px] ${
+                    answers[currentQuestion] === option.value ? 'quiz-option--active' : ''
                   }`}
                   whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   <div className="flex items-center gap-4">
                     <div
-                      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                      className={`w-7 h-7 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                         answers[currentQuestion] === option.value
-                          ? 'border-primary bg-primary'
-                          : 'border-muted-foreground'
+                          ? 'border-cyan-300 bg-cyan-300 text-slate-900'
+                          : 'border-white/40 text-transparent'
                       }`}
                     >
-                      {answers[currentQuestion] === option.value && (
-                        <Check className="w-4 h-4 text-primary-foreground" />
-                      )}
+                      {answers[currentQuestion] === option.value && <Check className="w-4 h-4" />}
                     </div>
-                    <span className="text-lg">{option.text}</span>
+                    <span className="text-base sm:text-lg">{option.text}</span>
                   </div>
                 </motion.button>
               ))}
@@ -148,13 +143,12 @@ const Quiz = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation Buttons */}
-        <div className="flex items-center justify-between mt-8">
+        <div className="flex items-center justify-between gap-4">
           <Button
             onClick={handleBack}
             variant="outline"
             disabled={currentQuestion === 0}
-            className="gap-2"
+            className="gap-2 min-h-[48px] px-6 text-base"
           >
             <ChevronLeft className="w-4 h-4" />
             Back
@@ -162,7 +156,7 @@ const Quiz = () => {
           <Button
             onClick={handleNext}
             disabled={!hasAnswer}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 min-h-[48px] px-6 text-base"
           >
             {currentQuestion === quizQuestions.length - 1 ? 'Finish' : 'Next'}
             <ChevronRight className="w-4 h-4" />
@@ -174,3 +168,4 @@ const Quiz = () => {
 };
 
 export default Quiz;
+```
